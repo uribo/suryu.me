@@ -35,9 +35,6 @@ jobs:
           R -e 'renv::restore()'
           R -e 'renv::install(c("purrr", "fs", "rmarkdown"))'
 
-      - name: Build pages
-        run: Rscript -e 'purrr::walk(fs::dir_ls("_posts", recurse = TRUE, regexp = ".Rmd$"), rmarkdown::render)'
-
       - name: Build site
         run: Rscript -e 'rmarkdown::render_site(encoding = "UTF-8")'
 
