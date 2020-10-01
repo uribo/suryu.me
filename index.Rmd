@@ -3,4 +3,5 @@ title: "s.uryu's personal web-site"
 description: |
   Shinya Uryuのウェブサイト。RやPython、Julia言語の情報を発信します。統計解析や地理空間データ処理、機械学習、再現性のある研究環境をテーマにしています。
 site: distill::distill_website
+listing: posts
 ---

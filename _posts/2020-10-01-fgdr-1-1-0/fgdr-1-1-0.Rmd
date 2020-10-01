@@ -1,0 +1,146 @@
+---
+title: "fgdrパッケージ（バージョン1.1.0）をCRAN登録しました"
+description: |
+  国土地理院 基盤地図情報データを扱うためのRパッケージfgdrパッケージ（バージョン1.1.0）をCRANに登録しました。
+  数値標高モデルデータを対象にしたときの返り値のクラスにdata.tableとterraが選択可能になりました。
+author:
+  - name: Shinya Uryu
+date: 2020-10-01
+preview_url: https://repository-images.githubusercontent.com/159126841/dc4e9d00-e809-11e9-92e8-a38ef58b804e
+output:
+  distill::distill_article:
+    self_contained: true
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
+hook <- knitr::knit_hooks$get("plot")
+knitr::knit_hooks$set(
+  plot = function(x, options) {
+    paste0(hook(x, options), " ")
+  }
+)
+```
+
+```{r, results='asis', echo=FALSE, prompt=FALSE}
+knitr::include_graphics(c(glue::glue("https://img.shields.io/badge/R-{version}-brightgreen", version = getRversion()),
+                        glue::glue("https://img.shields.io/badge/macOS-{os_version}-brightgreen", 
+                                   os_version = stringr::str_extract(osVersion, "[0-9]{1,}.[0-9]{1,}.[0-9]{1,}")),
+                        glue::glue("https://img.shields.io/badge/Last Modified-{date}-brightgreen",
+           date = stringr::str_replace_all(lubridate::today(), "-", "/"))))
+```
+
+Rで[国土地理院 基盤地図情報](https://www.gsi.go.jp/kiban/)データを扱うためのパッケージ、`fgdr`のバージョンアップ（1.0.1から1.1.0へ）を行いました。
+この更新での変更点は
+
+- `data.table`の採用 (高速化)
+- `terra`サポート
+- `data.frame`, `data.table`を指定した際の数値標高の値に対して単位（m）を付与するように
+
+です。いずれも数値標高モデルデータを対象にしたときの話題です。この記事ではそれらの利用方法を紹介します。
+
+## パッケージのインストール
+
+パッケージのインストールは`install.packages()`を通じて行ってください。
+
+```{r, eval=FALSE, echo=TRUE}
+install.packages("fgdr")
+```
+
+開発版の利用に興味がある方は以下のリンクを辿ってください。開発を支援してくださるスポンサーも募集しています。
+
+<a href="https://github.com/uribo/fgdr"><img src="https://github-link-card.s3.ap-northeast-1.amazonaws.com/uribo/fgdr.png" width="460px"></a>
+
+## 数値標高モデルの読み込み
+
+```{r, eval=FALSE, echo=FALSE}
+renv::install("fgdr")
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(fgdr)
+library(data.table)
+library(terra)
+```
+
+`fgdr`パッケージには、以前から国土地理院 基盤地図情報でダウンロード可能な数値標高モデルのファイルを読み込み、Rのオブジェクトして処理できる`read_fgd_dem()`がありました。
+
+この関数では読み込んだ際のオブジェクトの種類を指定でき、従来は表形式の`data.frame`、空間オブジェクト（ラスタ）クラスの`raster`および`stars`が候補となっていました。今回のアップデートでは、これらに加えて表形式の選択肢に`data.table`、ラスタ形式の候補に`terra`をそれぞれ追加しました。この2つのオプションを追加した理由は速度の改善と互換性の拡張です。
+
+```{r}
+# 5m DEM
+r_dt <- 
+  read_fgd_dem(system.file("extdata/FG-GML-0000-00-00-DEM5A-dummy.xml", package = "fgdr"),
+             resolution = 5,
+             return_class = "data.table")
+r_dt
+```
+valueの値にm単位がつくようになり、数値標高に対するイメージがつきやすくなったと思います。
+
+```{r}
+# unitsパッケージのunitsオブジェクトです
+class(r_dt$value)
+```
+
+続いて`terra`を指定した時の結果です。
+
+```{r}
+# 10m DEM
+r_terra <- 
+  read_fgd_dem(system.file("extdata/FG-GML-0000-10-dem10b-dummy.xml", package = "fgdr"),
+             resolution = 10,
+             return_class = "terra")
+r_terra
+```
+
+```{r}
+class(r_terra)
+```
+
+`SpatRaster`クラスは[`terra`パッケージ](https://rspatial.org/terra)におけるラスタ形式のデータで、出力すると座標系や最小値・最大値、次元数などが確認できます。
+
+
+### data.table導入の経緯
+
+`read_fgd_dem(return_class = "data.frame")`で数値標高モデルファイルを読み込むと、読み込み時間が少々長く感じることがありました。ところが、ここで`data.frame`を選択した際にそこで今回のアップデートでは読み込み速度の改善を目標に`data.table`オブジェクトへの変換を行うオプションを用意しました。
+
+https://github.com/uribo/fgdr/pull/20
+
+簡単な比較結果ですが、読み込み後のオブジェクトの種類を`data.table`とすると`data.frame`の時よりも高速に処理されます。また、表形式の状態で操作を行うときには`data.table`の恩恵を受けられる利点もあります。データ操作のフレームワークとして`dplyr`か`data.table`か、使い慣れている方を選択すると良いでしょう。
+
+### terraサポートの流れ
+
+`read_fgd_dem()`では、これまでラスタの形式として`raster`および`stars`クラスをサポートしていました。`stars`クラスは[`stars`パッケージ](https://r-spatial.github.io/stars/)が提供するオブジェクトのクラスです。`sf`パッケージでおなじみのEdzer Pebesmaさんらを開発メンバーとする[r-spatial](https://www.r-spatial.org/)が作っています。`st_*()`がつく関数が用意されており、sfパッケージに馴染みがあると親しみやすく、またパイプフレンドリーに操作できるパッケージです。
+
+一方の`terra`は、従来のRでのラスタデータを扱う際によく使われる`raster`の後継とされる新しいパッケージです（こちらの開発にもEdzerさんは携わっています）。`raster`よりも単純かつ高速であるという謳い文句です。
+
+> The package is similar to the 'raster' package; but 'terra' is simpler and faster.
+
+今後、Rで地理空間のラスタデータを扱う際には使う機会が増えそうです。それを見越しての対応となります。
+
+### Session Information
+
+```{r, echo=FALSE, layout="l-body-outset"}
+d <- 
+  sessioninfo::package_info()
+
+d <- 
+  tibble::tibble(
+      package = d$package,
+      version = d$loadedversion,
+      attached = d$attached,
+      date = d$date,
+      source = d$source)
+
+knitr::kable(dplyr::filter(d, attached == TRUE))
+```
+
+<details>
+
+```{r, echo=FALSE, layout="l-body-outset"}
+knitr::kable(d)
+```
+
+</details>
