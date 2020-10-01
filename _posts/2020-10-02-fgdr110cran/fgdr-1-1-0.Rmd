@@ -5,6 +5,8 @@ description: |
   数値標高モデルデータを対象にしたときの返り値のクラスにdata.tableとterraが選択可能になりました。
 author:
   - name: Shinya Uryu
+    url: https://twitter.com/u_ribo
+    orcid_id: 0000-0002-0493-6186
 date: 2020-10-02
 preview_url: https://repository-images.githubusercontent.com/159126841/dc4e9d00-e809-11e9-92e8-a38ef58b804e
 output:
