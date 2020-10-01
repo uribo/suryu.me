@@ -1,0 +1,39 @@
+name: "s.uryu's personal web-site"
+title: "suryu.me"
+description: |
+  Shinya Uryuのウェブサイト。RやPython、Julia言語の情報を発信します。統計解析や地理空間データ処理、機械学習、再現性のある研究環境をテーマにしています。
+output_dir: "_site"
+favicon: images/favicon.png
+base_url: https://suryu.me/
+repository_url: https://github.com/uribo/suryu.me
+preview: images/card.png
+creative_commons: CC BY-SA
+google_analytics: "UA-51734963-3"
+twitter:
+  site: "@u_ribo"
+  creator: "@u_ribo"
+navbar:
+  logo:
+    image: images/suika.png
+    href: https://suryu.me
+  search: true
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+    - icon: fab fa-github
+      href: https://github.com/uribo/suryu.me
+output:
+  distill::distill_article:
+    css: style.css
+    toc: true
+    toc_depth: 2
+    highlight: "haddock"
+    includes:
+      in_header: utterances.html
+exclude: ["renv", "renv.lock", "README.Rmd"]
+collections:
+  posts:
+    share: [twitter]
+    citations: false

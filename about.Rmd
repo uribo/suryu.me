@@ -1,0 +1,28 @@
+---
+title: "このサイトについて"
+description: |
+  このウェブサイト・運営する私自身について
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## 私について
+
+- 氏名: 瓜生真也 (Shinya Uryu)
+- 所属: 国立環境研究所 (National Institute for Environmental Studies)
+
+Hi! I'm Shinya Uryu, a engineer working with [National Institute for Environmental Studies (NIES)](https://www.nies.go.jp), and member of HOXO-M that Japanese young data scientist group. Passionate about data science, management and statistics. My favorite open-source language is [R](https://www.r-project.org/). I'm a [RStudio](https://www.rstudio.com/) fanboy. I got my MS in Plant Ecology, Yokohama National University. I love to plants, especially oak (*Quercus*) trees. I currently live in Tsukuba, Japan.
+
+### 興味関心
+
+- `r set.seed(123); emo::ji("graph")` Data Visualisation
+- Geo-spatial
+- Statistics
+- Reproducible Research
+
+### SNS
+
+- `r icon::fa("twitter")` Twitter: [@u_ribo](http://twitter.com/u_ribo)
+- `r icon::fa("github")` GitHub: [uribo](http://github.com/uribo)
