@@ -24,5 +24,13 @@ Hi! I'm Shinya Uryu, a engineer working with [National Institute for Environment
 
 ### SNS
 
-- `r icon::fa("twitter")` Twitter: [@u_ribo](http://twitter.com/u_ribo)
+- `r icon::fa("twitter")` Twitter: [\@u_ribo](http://twitter.com/u_ribo)
 - `r icon::fa("github")` GitHub: [uribo](http://github.com/uribo)
+
+## スポンサー
+
+下記の方々よりOSS活動に対する支援をいただいております（2020年10月2日現在 アカウントのアルファベット順）。ありがとうございます。
+
+[ak9782427](https://github.com/ak9782427]), [ito4303](https://github.com/ito4303), [kanji14134](https://github.com/kanji14134), [katsurakob](https://github.com/katsurakob), [niszet](https://github.com/niszet), [siero5335](https://github.com/siero5335), [takehikoihayashi](https://github.com/takehikoihayashi), [ytknzw](https://github.com/ytknzw), [yutannihilation](https://github.com/yutannihilation)
+
+スポンサーを検討される方は詳細ページ https://github.com/sponsors/uribo をご覧ください。
