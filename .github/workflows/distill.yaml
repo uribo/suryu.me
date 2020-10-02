@@ -27,13 +27,14 @@ jobs:
         uses: actions/cache@v2
         with:
           path: $HOME/Library/Application Support/renv
-          key: r-${{ hashFiles('renv.lock') }}
-          restore-keys: r-
+          key: ${{ runner.os }}-${{ hashFiles('**/renv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-renv-
 
       - name: Install packages
         run: |
           R -e 'install.packages("renv")'
-          R -e 'renv::restore()'
+          R -e 'renv::restore(confirm = FALSE)'
           R -e 'renv::install(c("purrr", "fs", "rmarkdown"))'
 
       - name: Build pages

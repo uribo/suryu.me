@@ -31,7 +31,7 @@ knitr::include_graphics(c(glue::glue("https://img.shields.io/badge/R-{version}-b
                         glue::glue("https://img.shields.io/badge/macOS-{os_version}-brightgreen", 
                                    os_version = stringr::str_extract(osVersion, "[0-9]{1,}.[0-9]{1,}.[0-9]{1,}")),
                         glue::glue("https://img.shields.io/badge/Last Modified-{date}-brightgreen",
-           date = stringr::str_replace_all(lubridate::today(), "-", "/"))))
+           date = stringr::str_replace_all(lubridate::today(tzone = "Asia/Tokyo"), "-", "/"))))
 ```
 
 Rで[国土地理院 基盤地図情報](https://www.gsi.go.jp/kiban/)データを扱うためのパッケージ、`fgdr`のバージョンアップ（1.0.1から1.1.0へ）を行いました。
