@@ -1,0 +1,36 @@
+---
+title: "プロジェクト"
+description: |
+  個人開発しているプロジェクト（Rパッケージ）、開発に携わるOSSプロジェクトを整理しています。
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Rパッケージ
+
+[See also](https://www.r-pkg.org/maint/suika1127@gmail.com)
+
+| package | version | downloads | stars |
+|---------|---------|-----------|-------|
+| `r icon::fa("github")` [fgdr](https://github.com/uribo/fgdr) | `r badgecreatr::badge_cran("fgdr")` | `r badgecreatr::badge_cran_downloads("fgdr")` | ![https://github.com/uribo/fgdr/stargazers](https://img.shields.io/github/stars/uribo/fgdr?style=social) |
+| `r icon::fa("github")` [kuniezu](https://github.com/uribo/kuniezu) | `r badgecreatr::badge_cran("kuniezu")` | `r badgecreatr::badge_cran_downloads("kuniezu")` | ![https://github.com/uribo/kuniezu/stargazers](https://img.shields.io/github/stars/uribo/kuniezu?style=social) |
+| `r icon::fa("github")` [jpndistrict](https://github.com/uribo/jpndistrict) | `r badgecreatr::badge_cran("jpndistrict")` | `r badgecreatr::badge_cran_downloads("jpndistrict")` | ![https://github.com/uribo/jpndistrict/stargazers](https://img.shields.io/github/stars/uribo/jpndistrict?style=social) |
+| `r icon::fa("github")` [jpmesh](https://github.com/uribo/jpmesh) | `r badgecreatr::badge_cran("jpmesh")` | `r badgecreatr::badge_cran_downloads("jpmesh")` | ![https://github.com/uribo/jpmesh/stargazers](https://img.shields.io/github/stars/uribo/jpmesh?style=social) |
+| `r icon::fa("github")` [ssrn](https://github.com/uribo/ssrn) | `r badgecreatr::badge_cran("ssrn")` | `r badgecreatr::badge_cran_downloads("ssrn")` | ![https://github.com/uribo/ssrn/stargazers](https://img.shields.io/github/stars/uribo/ssrn?style=social) |
+| `r icon::fa("github")` [tabularmaps](https://github.com/uribo/tabularmaps) | `r badgecreatr::badge_cran("tabularmaps")` | `r badgecreatr::badge_cran_downloads("tabularmaps")` | ![https://github.com/uribo/tabularmaps/stargazers](https://img.shields.io/github/stars/uribo/tabularmaps?style=social) |
+| `r icon::fa("github")` [zipangu](https://github.com/uribo/zipangu) | `r badgecreatr::badge_cran("zipangu")` | `r badgecreatr::badge_cran_downloads("zipangu")` | ![https://github.com/uribo/zipangu/stargazers](https://img.shields.io/github/stars/uribo/zipangu?style=social) |
+
+### CRAN未登録
+
+| package | version | downloads | stars |
+|---------|---------|-----------|-------|
+| `r icon::fa("github")` [easyestat](https://github.com/uribo/easyestat) | `r badgecreatr::badge_cran("easyestat")` | - | ![https://github.com/uribo/easyestat/stargazers](https://img.shields.io/github/stars/uribo/easyestat?style=social) |
+| `r icon::fa("gitlab")` [jmastats](https://gitlab.com/uribo/jmastats) | `r badgecreatr::badge_cran("jmastats")` | - | - |
+| `r icon::fa("github")` [jpnp](https://github.com/uribo/jpnp) | `r badgecreatr::badge_cran("jpnp")` | - | ![https://github.com/uribo/jpnp/stargazers](https://img.shields.io/github/stars/uribo/jpnp?style=social) |
+| `r icon::fa("github")` [monit1000](https://github.com/uribo/monit1000) | `r badgecreatr::badge_cran("monit1000")` | - | ![https://github.com/uribo/monit1000/stargazers](https://img.shields.io/github/stars/uribo/monit1000?style=social) |
+| `r icon::fa("github")` [textlintr](https://github.com/uribo/textlintr) | `r badgecreatr::badge_cran("textlintr")` | - | ![https://github.com/uribo/textlintr/stargazers](https://img.shields.io/github/stars/uribo/textlintr?style=social) |
+| `r icon::fa("github")` [tst](https://github.com/uribo/tst) | `r badgecreatr::badge_cran("tst")` | - | ![https://github.com/uribo/tst/stargazers](https://img.shields.io/github/stars/uribo/tst?style=social) |
+| `r icon::fa("github")` [wakatimer](https://github.com/uribo/wakatimer) | `r badgecreatr::badge_cran("wakatimer")` | - | ![https://github.com/uribo/wakatimer/stargazers](https://img.shields.io/github/stars/uribo/wakatimer?style=social) |
+

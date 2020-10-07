@@ -17,13 +17,16 @@ navbar:
     image: images/suika.png
     href: https://suryu.me
   search: true
+  source_url: https://github.com/uribo/suryu.me
   right:
     - text: "Home"
       href: index.html
     - text: "About"
       href: about.html
-    - icon: fab fa-github
-      href: https://github.com/uribo/suryu.me
+    - text: "Projects" 
+      href: projects.html
+    - text: "Slides"
+      href: slide.html
 output:
   distill::distill_article:
     css: style.css
@@ -37,3 +40,5 @@ collections:
   posts:
     share: [twitter]
     citations: false
+rss:
+  full_content: false

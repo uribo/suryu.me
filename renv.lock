@@ -93,6 +93,13 @@
       "Repository": "CRAN",
       "Hash": "05ffd2d4acb51aee70f1de68ad7a6aed"
     },
+    "badgecreatr": {
+      "Package": "badgecreatr",
+      "Version": "0.2.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "5db59479f84ad4a0650e74a8d8edac70"
+    },
     "base64enc": {
       "Package": "base64enc",
       "Version": "0.1-3",
@@ -211,15 +218,15 @@
     },
     "distill": {
       "Package": "distill",
-      "Version": "0.8.1",
+      "Version": "1.0",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "rstudio",
       "RemoteRepo": "distill",
       "RemoteRef": "master",
-      "RemoteSha": "246a2bd5abc42f305393c80eb2ded9268555d87e",
-      "Hash": "81ff04c47d740f1f2a0f18771f8ad362"
+      "RemoteSha": "7199ecaf513966b2ef0cdc2a013f45593a99e8c4",
+      "Hash": "6d4924d168852d069fe27734b0dd9e9e"
     },
     "downlit": {
       "Package": "downlit",
@@ -227,19 +234,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "0f42132bc675888f9ee5d2fa7ff07d64"
-    },
-    "downloader": {
-      "Package": "downloader",
-      "Version": "0.4",
-      "Source": "CRAN",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "downloader",
-      "RemoteRef": "downloader",
-      "RemoteRepos": "https://cran.rstudio.com/",
-      "RemotePkgType": "macos",
-      "RemoteSha": "0.4",
-      "Hash": "f4f2a915e0dedbdf016a83b63477349f"
     },
     "dplyr": {
       "Package": "dplyr",
@@ -323,6 +317,13 @@
       "Repository": "CRAN",
       "Hash": "4ded8b439797f7b1693bd3d238d0106b"
     },
+    "git2r": {
+      "Package": "git2r",
+      "Version": "0.27.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "531a82d1beed1f545beb25f4f5945bf7"
+    },
     "glue": {
       "Package": "glue",
       "Version": "1.4.2",
@@ -343,6 +344,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "ac5c6baf7822ce8732b343f14c072c4d"
+    },
+    "here": {
+      "Package": "here",
+      "Version": "0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "2c0406b8e0a4c3516ab37be62da74e3c"
     },
     "highr": {
       "Package": "highr",
@@ -593,13 +601,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "03446ed0b8129916f73676726cb3c48f"
-    },
-    "progress": {
-      "Package": "progress",
-      "Version": "1.2.2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "14dc9f7a3c91ebb14ec5bb9208a07061"
     },
     "promises": {
       "Package": "promises",
