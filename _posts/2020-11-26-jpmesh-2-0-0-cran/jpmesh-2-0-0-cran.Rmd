@@ -34,7 +34,7 @@ knitr::knit_hooks$set(
 大きな変更点は次の3点です。
 
 - meshcodeクラスの実装
-- 100mメッシュコードへの対応
+- 100mメッシュコードへの対応（subdiv_meshcodeクラスの実装）
 - [`{memoise}`](https://cran.r-project.org/web/packages/memoise/index.html)によるキャッシュの利用
 
 この記事では、アップデートに伴うこれらの内容について解説します。なおmeshcodeクラスが実装されたことで出力結果が変わりますが、ユーザが実行するコードには大きな変更はなく、これまでと同じコードでパッケージの機能を利用可能です。

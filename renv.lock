@@ -989,6 +989,13 @@
       "Repository": "CRAN",
       "Hash": "f401be434f60d4549bda90b566ff6d3f"
     },
+    "twitterwidget": {
+      "Package": "twitterwidget",
+      "Version": "0.1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "6e27461da0f295545d772d52aaa94631"
+    },
     "units": {
       "Package": "units",
       "Version": "0.6-7",
