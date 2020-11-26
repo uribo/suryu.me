@@ -144,6 +144,10 @@ tictoc::toc()
 
 手元の環境で10秒ほどかかっていたものが1秒程度に短縮されました。memoiseのキャッシュ化は`administration_mesh()`、`meshcode_set()`といった一部の関数での提供になりますが、パッケージを使う上で高速化の効果を実感できると思います。是非お試しください。
 
+```{r, eval=TRUE, echo=FALSE}
+twitterwidget::twitterwidget("1330067065026342912")
+```
+
 ### Session Information
 
 ```{r, echo=FALSE, layout="l-body-outset"}
