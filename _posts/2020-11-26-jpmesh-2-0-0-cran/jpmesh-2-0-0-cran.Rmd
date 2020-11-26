@@ -1,0 +1,171 @@
+---
+title: "jpmeshパッケージ（バージョン2.0.0）をCRAN登録しました"
+description: |
+  地域メッシュを扱うRパッケージのjpmeshがバージョンアップしました。最新バージョン（2.0.0）はCRANからインストール可能です。
+  主な変更点はメッシュコードを表現するためのmeshcodeクラスの実装、100mメッシュコードへの対応、処理の高速化です。
+author:
+  - name: Shinya Uryu
+    url: https://twitter.com/u_ribo
+    orcid_id: 0000-0002-0493-6186
+date: 2020-11-26
+categories:
+  - geospatial
+  - release
+preview_url: https://repository-images.githubusercontent.com/23227552/3baf2e00-993a-11e9-9f79-9df582be3541
+output:
+  distill::distill_article:
+    self_contained: true
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
+hook <- knitr::knit_hooks$get("plot")
+knitr::knit_hooks$set(
+  plot = function(x, options) {
+    paste0(hook(x, options), " ")
+  }
+)
+```
+
+日本国内で利用される「[地域メッシュ（メッシュコード）](https://www.stat.go.jp/data/mesh/m_tuite.html)」をRから容易に利用可能にするパッケージ、jpmeshパッケージの更新を行いました。バージョン1.2.1から2.0.0へのメジャーアップデートとなります。
+
+大きな変更点は次の3点です。
+
+- meshcodeクラスの実装
+- 100mメッシュコードへの対応
+- [`{memoise}`](https://cran.r-project.org/web/packages/memoise/index.html)によるキャッシュの利用
+
+この記事では、アップデートに伴うこれらの内容について解説します。なおmeshcodeクラスが実装されたことで出力結果が変わりますが、ユーザが実行するコードには大きな変更はなく、これまでと同じコードでパッケージの機能を利用可能です。
+
+パッケージのインストールは次のコマンドで実行します。
+
+```r
+install.packages("jpmesh")
+```
+
+開発版の利用に興味がある方は以下のリンクを辿ってください。開発を支援してくださるスポンサーも募集しています。
+
+<a href="https://github.com/uribo/jpmesh"><img src="https://github-link-card.s3.ap-northeast-1.amazonaws.com/uribo/jpmesh.png" width="460px"></a>
+
+```{r}
+library(jpmesh)
+```
+
+まずはメッシュコードを表現するための新しいクラス、meshcodeについて見ていきましょう。
+
+## meshcodeクラス
+
+**meshcodeクラス**は、今回リリースされたjpmeshバージョン2.0.0で追加されたS3ベースのクラスです。メッシュコードを表現することを目的としており、jpmeshが返却するメッシュコードの値はmeshcodeクラスによって実装されています。
+
+meshcodeクラスのオブジェクトは`meshcode()`によって生成します。引数に有効なメッシュコードを与えることでmeshcodeオブジェクトを得られます。この時、メッシュコードの値は文字列であっても数値であっても構いません。以下に80km、1kmメッシュのmeshcodeオブジェクトを生成するコードを示します。
+
+```{r}
+meshcode(4830) # 80km
+m <- meshcode(48302626) # 1km
+m
+class(m)
+```
+
+パッケージ独自のクラスを用意することで、数値や文字列ではなく、メッシュコードであることがわかりやすくなりました。
+
+meshcodeオブジェクトはmesh_codeとmesh_sizeの2つの属性を持ちます。mesh_sizeがmeshcodeそのものに記録されていることで、メッシュの大きさを確認することが容易になります。
+
+```{r}
+vctrs::fields(m)
+mesh_size(m)
+```
+
+```{r, eval=FALSE, echo=TRUE}
+# mesh_size()の代わりにvctrs::field()でメッシュサイズを参照できます
+vctrs::field(m, "mesh_size")
+```
+
+
+`meshcode()`ではメッシュの大きさが異なるメッシュコードを一つのオブジェクトとして格納できます。
+
+```{r}
+m <- 
+  meshcode(c(6240, 624011, 62401123))
+mesh_size(m)
+```
+
+既存の関数が返すメッシュコードもmeshcodeオブジェクトとして扱われます。
+
+```{r}
+coords_to_mesh(141.3468, 43.06462, mesh_size = 1)
+
+fine_separate(6240)
+
+coarse_gather(493214294)
+
+set.seed(123)
+rmesh(1)
+```
+
+## 100mメッシュコード
+
+メッシュコードの一つに、1kmメッシュコードを分割した100mメッシュコードがあります。100mメッシュコードは10桁の数値で表現されますが、これは既存の250mと同じ桁数です。250mメッシュコードは先述のmeshcodeクラスによって表現されます。そのため、100mメッシュコードを実装する際にこれらのメッシュを識別するための仕組みが必要でした。そこでmeshcodeクラスとは別の**subdiv_meshcodeクラス**を用意しました。このクラスは100mメッシュコードを表現するために使われます。
+
+100mメッシュを得るには`meshcode()`に10桁のメッシュコードを与え、引数`.type = "subdivision"`を指定して実行します。（10桁のメッシュコードを与えた際の既定ではmeshcodeクラス、すなわち250mメッシュとして扱われます）
+
+```{r}
+m <- 
+  meshcode(6240112300, .type = "subdivision")
+m
+class(m)
+mesh_size(m)
+```
+
+`fine_separate()`により1kmメッシュから100mメッシュにスケールダウンする際も、`.type = "subdivision"`を指定します。
+
+```{r}
+class(fine_separate(45313747, .type = "subdivision"))
+```
+
+## memoise
+
+最後は性能に関する内容です。jpmeshパッケージのいくつかの関数は実行結果を得るのに数十秒以上かかるものがありました。具体的には、対象の市町村が属するメッシュコードを返却する`administration_mesh()`や任意のサイズのメッシュコードをリストアップする`meshcode_set()`です。これらの関数の実行時間に対する障壁は、対象となるメッシュコードの数の多さにありました（メッシュサイズを小さくするほど候補が増える）。
+
+この問題を解決するため、実行結果をキャッシュ化、キャッシュの利用により再実行時に高速に結果を得ることが期待できるmemoiseパッケージを導入しました。
+
+セッションを起動し直すとキャッシュが消えてしまいますが、セッション中はキャッシュの利用により素早く結果を得られます。次のコードでの`administration_mesh()`の実行時間に注目ください。
+
+```{r}
+tictoc::tic()
+invisible(administration_mesh(code = "35201", to_mesh_size = 1))
+tictoc::toc()
+
+tictoc::tic()
+invisible(administration_mesh(code = "35201", to_mesh_size = 1))
+tictoc::toc()
+```
+
+手元の環境で10秒ほどかかっていたものが1秒程度に短縮されました。memoiseのキャッシュ化は`administration_mesh()`、`meshcode_set()`といった一部の関数での提供になりますが、パッケージを使う上で高速化の効果を実感できると思います。是非お試しください。
+
+### Session Information
+
+```{r, echo=FALSE, layout="l-body-outset"}
+d <- 
+  sessioninfo::package_info()
+
+d <- 
+  tibble::tibble(
+      package = d$package,
+      version = d$loadedversion,
+      attached = d$attached,
+      date = d$date,
+      source = d$source)
+
+knitr::kable(dplyr::filter(d, attached == TRUE))
+```
+
+<details>
+
+```{r, echo=FALSE, layout="l-body-outset"}
+knitr::kable(d)
+```
+
+</details>
+
